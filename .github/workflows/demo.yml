@@ -9,8 +9,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          image: "alpine:latest"
-          debug: true
+          image: "mongo:3.2"
           fail-build: false
 
   test-directory:
@@ -20,7 +19,6 @@ jobs:
       - uses: ./
         with:
           path: "tests/fixtures/npm-project"
-          debug: true
           fail-build: false
 
   sbom:
@@ -30,5 +28,4 @@ jobs:
       - uses: ./
         with:
           sbom: tests/fixtures/test_sbom.spdx.json
-          debug: true
           fail-build: false
