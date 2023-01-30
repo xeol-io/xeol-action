@@ -50,7 +50,7 @@ The simplest workflow for scanning a `localbuild/testimage` container:
     load: true
 
 - name: Scan image
-  uses: noqcks/xeol-action@v1
+  uses: noqcks/xeol-action@v1.0.2
   with:
     image: "localbuild/testimage:latest"
 ```
@@ -61,7 +61,7 @@ To scan a directory, add the following step:
 
 ```yaml
 - name: Scan current project
-  uses: noqcks/xeol-action@v1
+  uses: noqcks/xeol-action@v1.0.2
   with:
     path: "."
 ```
@@ -80,7 +80,7 @@ Use the `sbom` key to scan an SBOM file:
     output-file: "${{ github.event.repository.name }}-sbom.spdx.json"
 
 - name: Scan SBOM
-  uses: noqcks/xeol-action@v1
+  uses: noqcks/xeol-action@v1.0.2
   with:
     sbom: "${{ github.event.repository.name }}-sbom.spdx.json"
 ```
@@ -93,7 +93,7 @@ You change the `fail-build` field to `false` to avoid failing the build in the c
 
 ```yaml
 - name: Scan image
-  uses: noqcks/xeol-action@v1
+  uses: noqcks/xeol-action@v1.0.2
   with:
     image: "localbuild/testimage:latest"
     fail-build: false
@@ -134,7 +134,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build the container image
         run: docker build . --file Dockerfile --tag localbuild/testimage:latest
-      - uses: noqcks/xeol-action@v1
+      - uses: noqcks/xeol-action@v1.0.2
         with:
           image: "localbuild/testimage:latest"
           fail-build: true
