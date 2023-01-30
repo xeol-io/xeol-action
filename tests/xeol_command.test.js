@@ -43,4 +43,14 @@ describe("Xeol command", () => {
     });
     expect(cmd).toBe("xeol -o json asdf");
   });
+
+  it("is invoked with fail", async () => {
+    let cmd = await mockExec({
+      source: "asdf",
+      failBuild: "true",
+      outputFormat: "json",
+      version: "0.6.0",
+    });
+    expect(cmd).toBe("xeol -o json --fail-on-eol-found asdf");
+  });
 });

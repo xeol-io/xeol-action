@@ -175,6 +175,9 @@ async function runScan({
   // Run the xeol analyzer
   let cmdOutput = "";
   let cmd = `${xeolBinary}`;
+  if (failBuild) {
+    cmdArgs.push("--fail-on-eol-found");
+  }
   cmdArgs.push(source);
 
   // This /dev/null writable stream is required so the entire Xeol output
