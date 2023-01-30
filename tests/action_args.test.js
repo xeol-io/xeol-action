@@ -5,39 +5,37 @@ const exec = require("@actions/exec");
 jest.setTimeout(30000);
 
 describe("Github action args", () => {
-  // it("runs with json report", async () => {
-  //   const inputs = {
-  //     image: "",
-  //     path: "tests/fixtures/npm-project",
-  //     "fail-build": "true",
-  //     "output-format": "json",
-  //   };
-  //   const spyInput = jest.spyOn(core, "getInput").mockImplementation((name) => {
-  //     try {
-  //       return inputs[name];
-  //     } finally {
-  //       inputs[name] = true;
-  //     }
-  //   });
+  it("runs with json output", async () => {
+    const inputs = {
+      image: "",
+      path: "tests/fixtures/npm-project",
+      "fail-build": "true",
+      "output-format": "json",
+    };
+    const spyInput = jest.spyOn(core, "getInput").mockImplementation((name) => {
+      try {
+        return inputs[name];
+      } finally {
+        inputs[name] = true;
+      }
+    });
 
-  //   const outputs = {};
-  //   const spyOutput = jest
-  //     .spyOn(core, "setOutput")
-  //     .mockImplementation((name, value) => {
-  //       outputs[name] = value;
-  //     });
+    const outputs = {};
+    const spyOutput = jest
+      .spyOn(core, "setOutput")
+      .mockImplementation((name, value) => {
+        outputs[name] = value;
+      });
 
-  //   await run();
+    await run();
 
-  //   Object.keys(inputs).map((name) => {
-  //     expect(inputs[name]).toBe(true);
-  //   });
+    Object.keys(inputs).map((name) => {
+      expect(inputs[name]).toBe(true);
+    });
 
-  //   expect(outputs["json"]).toBe(true)
-
-  //   spyInput.mockRestore();
-  //   spyOutput.mockRestore();
-  // });
+    spyInput.mockRestore();
+    spyOutput.mockRestore();
+  });
 
   it("runs with table output", async () => {
     const inputs = {
