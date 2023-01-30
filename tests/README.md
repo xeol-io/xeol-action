@@ -6,9 +6,9 @@ some images built.
 ```
 docker run -d -p 5000:5000 --name registry registry:2
 
-for distro in alpine centos debian; do
-  docker build -t localhost:5000/match-coverage/$distro ./tests/fixtures/image-$distro-match-coverage
-  docker push localhost:5000/match-coverage/$distro:latest
+for name in mongo-32; do
+  docker build -t localhost:5000/match-coverage/$name ./tests/fixtures/image-$name-match-coverage
+  docker push localhost:5000/match-coverage/$name:latest
 done
 ```
 
