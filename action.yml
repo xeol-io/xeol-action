@@ -1,5 +1,5 @@
-name: "Anchore Container Scan"
-description: "Scan docker containers with Grype for vulnerabilities"
+name: "Xeol End-of-Life (EOL) Scan"
+description: "Scan docker containers with Xeol for End-of-Life (EOL) packages"
 branding:
   color: blue
   icon: check-circle
@@ -14,24 +14,14 @@ inputs:
     description: 'The SBOM file to scan. This option is mutually exclusive with "path" and "image".'
     required: false
   fail-build:
-    description: "Set to false to avoid failing based on severity-cutoff. Default is to fail when severity-cutoff is reached (or surpassed)"
+    description: "Set to false to avoid failing based on finding an EOL package. Default is to fail when any EOL package is found."
     required: false
     default: "true"
   output-format:
-    description: 'Set the output parameter after successful action execution. Valid choices are "json", "sarif", and "table".'
+    description: 'Set the output parameter after successful action execution. Valid choices are "json" and "table".'
     required: false
-    default: "sarif"
-  severity-cutoff:
-    description: 'Optionally specify the minimum vulnerability severity to trigger an "error" level ACS result.  Valid choices are "negligible", "low", "medium", "high" and "critical".  Any vulnerability with a severity less than this value will lead to a "warning" result.  Default is "medium".'
-    required: false
-    default: "medium"
-  only-fixed:
-    description: "Specify whether to only report vulnerabilities that have a fix available.  Default is false."
-    required: false
-    default: "false"
+    default: "table"
 outputs:
-  sarif:
-    description: "Path to a SARIF report file for the image"
   json:
     description: "Path to a JSON report file for the image"
 runs:
