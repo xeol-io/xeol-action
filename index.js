@@ -213,14 +213,14 @@ async function runScan({
   if (exitCode > 0) {
     if (failBuild === true) {
       core.setFailed(
-        `Failed pass. Xeol found packages that were End-of-Life (EOL)`
+        `Failed. Xeol found packages that were End-of-Life (EOL)`
       );
     } else {
       // There is a non-zero exit status code with severity cut off, although there is still a chance this is xeol
       // that is broken, it will most probably be a failed severity. Using warning here will make it bubble up in the
       // Actions UI
       core.warning(
-        `Failed pass. Xeol found packages that were End-of-Life (EOL)`
+        `Failed. Xeol found packages that were End-of-Life (EOL)`
       );
     }
   }
