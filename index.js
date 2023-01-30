@@ -87,14 +87,10 @@ async function run() {
     // a check must happen to ensure one is selected at least, and then return it
     const source = sourceInput();
     const failBuild = core.getInput("fail-build") || "true";
-    const outputFormat = core.getInput("output-format") || "sarif";
-    const severityCutoff = core.getInput("severity-cutoff") || "medium";
-    const onlyFixed = core.getInput("only-fixed") || "false";
+    const outputFormat = core.getInput("output-format") || "table";
     const out = await runScan({
       source,
       failBuild,
-      severityCutoff,
-      onlyFixed,
       outputFormat,
     });
     Object.keys(out).map((key) => {
@@ -108,8 +104,6 @@ async function run() {
 async function runScan({
   source,
   failBuild,
-  severityCutoff,
-  onlyFixed,
   outputFormat,
 }) {
   const out = {};
@@ -132,8 +126,7 @@ async function runScan({
     }
   }
 
-  const SEVERITY_LIST = ["negligible", "low", "medium", "high", "critical"];
-  const FORMAT_LIST = ["sarif", "json", "table"];
+  const FORMAT_LIST = ["json", "table"];
   let cmdArgs = [];
 
   if (core.isDebug()) {
@@ -141,21 +134,9 @@ async function runScan({
   }
 
   failBuild = failBuild.toLowerCase() === "true";
-  onlyFixed = onlyFixed.toLowerCase() === "true";
 
   cmdArgs.push("-o", outputFormat);
 
-  if (
-    !SEVERITY_LIST.some(
-      (item) =>
-        typeof severityCutoff.toLowerCase() === "string" &&
-        item === severityCutoff.toLowerCase()
-    )
-  ) {
-    throw new Error(
-      `Invalid severity-cutoff value is set to ${severityCutoff} - please ensure you are choosing either negligible, low, medium, high, or critical`
-    );
-  }
   if (
     !FORMAT_LIST.some(
       (item) =>
@@ -164,7 +145,7 @@ async function runScan({
     )
   ) {
     throw new Error(
-      `Invalid output-format value is set to ${outputFormat} - please ensure you are choosing either json or sarif`
+      `Invalid output-format value is set to ${outputFormat} - please ensure you are choosing either json or table`
     );
   }
 
@@ -173,8 +154,6 @@ async function runScan({
 
   core.debug("Source: " + source);
   core.debug("Fail Build: " + failBuild);
-  core.debug("Severity Cutoff: " + severityCutoff);
-  core.debug("Only Fixed: " + onlyFixed);
   core.debug("Output Format: " + outputFormat);
 
   core.debug("Creating options for Xeol analyzer");
@@ -182,13 +161,6 @@ async function runScan({
   // Run the xeol analyzer
   let cmdOutput = "";
   let cmd = `${xeolBinary}`;
-  if (severityCutoff !== "") {
-    cmdArgs.push("--fail-on");
-    cmdArgs.push(severityCutoff.toLowerCase());
-  }
-  if (onlyFixed === true) {
-    cmdArgs.push("--only-fixed");
-  }
   cmdArgs.push(source);
 
   // This /dev/null writable stream is required so the entire Xeol output
@@ -227,12 +199,6 @@ async function runScan({
   }
 
   switch (outputFormat) {
-    case "sarif": {
-      const SARIF_FILE = "./results.sarif";
-      fs.writeFileSync(SARIF_FILE, cmdOutput);
-      out.sarif = SARIF_FILE;
-      break;
-    }
     case "json": {
       const REPORT_FILE = "./results.json";
       fs.writeFileSync(REPORT_FILE, cmdOutput);
@@ -245,20 +211,16 @@ async function runScan({
 
   // If there is a non-zero exit status code there are a couple of potential reporting paths
   if (exitCode > 0) {
-    if (!severityCutoff) {
-      // There was a non-zero exit status but it wasn't because of failing severity, this must be
-      // a xeol problem
-      core.warning("xeol had a non-zero exit status when running");
-    } else if (failBuild === true) {
+    if (failBuild === true) {
       core.setFailed(
-        `Failed minimum severity level. Found vulnerabilities with level '${severityCutoff}' or higher`
+        `Failed pass. Xeol found packages that were End-of-Life (EOL)`
       );
     } else {
       // There is a non-zero exit status code with severity cut off, although there is still a chance this is xeol
       // that is broken, it will most probably be a failed severity. Using warning here will make it bubble up in the
       // Actions UI
       core.warning(
-        `Failed minimum severity level. Found vulnerabilities with level '${severityCutoff}' or higher`
+        `Failed pass. Xeol found packages that were End-of-Life (EOL)`
       );
     }
   }

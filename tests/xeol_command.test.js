@@ -4,7 +4,7 @@ const githubActionsToolCache = require("@actions/tool-cache");
 jest.setTimeout(30000);
 
 jest.spyOn(githubActionsToolCache, "find").mockImplementation(() => {
-  return "grype";
+  return "xeol";
 });
 
 const spyExec = jest.spyOn(githubActionsExec, "exec").mockImplementation(() => {
@@ -22,18 +22,16 @@ const mockExec = async (args) => {
   return `${cmd} ${params.join(" ")}`;
 };
 
-describe("Grype command", () => {
+describe("Xeol command", () => {
   it("is invoked with dir", async () => {
     let cmd = await mockExec({
       source: "dir:.",
       debug: "false",
       failBuild: "false",
-      outputFormat: "sarif",
-      severityCutoff: "high",
+      outputFormat: "json",
       version: "0.6.0",
-      onlyFixed: "false",
     });
-    expect(cmd).toBe("grype -o sarif --fail-on high dir:.");
+    expect(cmd).toBe("xeol -o json dir:.");
   });
 
   it("is invoked with values", async () => {
@@ -41,10 +39,8 @@ describe("Grype command", () => {
       source: "asdf",
       failBuild: "false",
       outputFormat: "json",
-      severityCutoff: "low",
       version: "0.6.0",
-      onlyFixed: "false",
     });
-    expect(cmd).toBe("grype -o json --fail-on low asdf");
+    expect(cmd).toBe("xeol -o json asdf");
   });
 });

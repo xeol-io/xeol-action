@@ -40,7 +40,7 @@ function runAction(inputs) {
   };
 
   // reverse setOutput command calls like:
-  // ::set-output name=cmd::/tmp/actions/cache/grype/0.34.4/x64/grype
+  // ::set-output name=cmd::/tmp/actions/cache/xeol/0.34.4/x64/xeol
   for (const line of stdout.split(os.EOL)) {
     const groups = line.match(/::set-output name=(\w+)::(.*)$/);
     if (groups && groups.length > 2) {
@@ -52,9 +52,9 @@ function runAction(inputs) {
 }
 
 describe("scan-action", () => {
-  it("runs download-grype", () => {
+  it("runs download-xeol", () => {
     const outputs = runAction({
-      run: "download-grype",
+      run: "download-xeol",
     });
     expect(outputs.cmd).toBeDefined();
   });
@@ -68,7 +68,7 @@ describe("scan-action", () => {
     expect(outputs.stdout).toContain(
       "The following options are mutually exclusive: image, path, sbom"
     );
-    expect(outputs.stdout).not.toContain("grype");
+    expect(outputs.stdout).not.toContain("xeol");
 
     outputs = runAction({
       image: "some-image",
@@ -78,7 +78,7 @@ describe("scan-action", () => {
     expect(outputs.stdout).toContain(
       "The following options are mutually exclusive: image, path, sbom"
     );
-    expect(outputs.stdout).not.toContain("grype");
+    expect(outputs.stdout).not.toContain("xeol");
 
     outputs = runAction({
       path: "some-path",
@@ -88,7 +88,7 @@ describe("scan-action", () => {
     expect(outputs.stdout).toContain(
       "The following options are mutually exclusive: image, path, sbom"
     );
-    expect(outputs.stdout).not.toContain("grype");
+    expect(outputs.stdout).not.toContain("xeol");
   });
 
   it("fails due to vulnerabilities found", () => {
