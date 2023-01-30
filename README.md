@@ -6,6 +6,8 @@
 
 :zap: _Find End-of-life (EOL) software in files or containers at lightning speed_ :zap:
 
+![image](https://user-images.githubusercontent.com/4740147/215561344-5c5bba89-c4a4-4c72-ad71-58c48d5e41d6.png)
+
 This is a GitHub Action for invoking the [Xeol](https://github.com/noqcks/xeol) scanner and returning the end-of-life (EOL) packages,
 and fail if an out-of-date package is found.
 
