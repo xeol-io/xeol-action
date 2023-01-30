@@ -1,0 +1,20 @@
+name: "Download Xeol"
+author: "noqcks"
+description: "Downloads the Xeol binary and provides a path to execute it"
+branding:
+  color: blue
+  icon: check-circle
+inputs:
+  xeol-version:
+    description: "A specific version of Xeol to install"
+    required: false
+  run:
+    description: "Flag to indicate which sub-action to run"
+    required: false
+    default: "download-xeol"
+outputs:
+  cmd:
+    description: "An absolute path to the Xeol executable"
+runs:
+  using: "node16"
+  main: "../dist/index.js"

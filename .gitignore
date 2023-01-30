@@ -115,8 +115,8 @@ typings/
 /venv/*
 /tests/functional/__pycache__/*
 
-# grype db for tests
-/grype-db
+# xeol db for tests
+/xeol-db
 
 # Action temporary files
 results.sarif

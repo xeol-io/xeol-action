@@ -3,40 +3,40 @@ const core = require("@actions/core");
 const exec = require("@actions/exec");
 const fs = require("fs");
 const stream = require("stream");
-const { GRYPE_VERSION } = require("./GrypeVersion");
+const { XEOL_VERSION } = require("./XeolVersion");
 
-const grypeBinary = "grype";
-const grypeVersion = core.getInput("grype-version") || GRYPE_VERSION;
+const xeolBinary = "xeol";
+const xeolVersion = core.getInput("xeol-version") || XEOL_VERSION;
 
-async function downloadGrype(version) {
-  let url = `https://raw.githubusercontent.com/anchore/grype/main/install.sh`;
+async function downloadXeol(version) {
+  let url = `https://raw.githubusercontent.com/noqcks/xeol/main/install.sh`;
 
   core.debug(`Installing ${version}`);
 
-  // TODO: when grype starts supporting unreleased versions, support it here
+  // TODO: when xeol starts supporting unreleased versions, support it here
   // Download the installer, and run
   const installPath = await cache.downloadTool(url);
   // Make sure the tool's executable bit is set
   await exec.exec(`chmod +x ${installPath}`);
 
-  let cmd = `${installPath} -b ${installPath}_grype ${version}`;
+  let cmd = `${installPath} -b ${installPath}_xeol ${version}`;
   await exec.exec(cmd);
-  let grypePath = `${installPath}_grype/grype`;
+  let xeolPath = `${installPath}_xeol/xeol`;
 
   // Cache the downloaded file
-  return cache.cacheFile(grypePath, `grype`, `grype`, version);
+  return cache.cacheFile(xeolPath, `xeol`, `xeol`, version);
 }
 
-async function installGrype(version) {
-  let grypePath = cache.find(grypeBinary, version);
-  if (!grypePath) {
+async function installXeol(version) {
+  let xeolPath = cache.find(xeolBinary, version);
+  if (!xeolPath) {
     // Not found, install it
-    grypePath = await downloadGrype(version);
+    xeolPath = await downloadXeol(version);
   }
 
   // Add tool to path for this and future actions to use
-  core.addPath(grypePath);
-  return `${grypePath}/${grypeBinary}`;
+  core.addPath(xeolPath);
+  return `${xeolPath}/${xeolBinary}`;
 }
 
 // Determines if multiple arguments are defined
@@ -83,7 +83,7 @@ function sourceInput() {
 async function run() {
   try {
     core.debug(new Date().toTimeString());
-    // Grype accepts several input options, initially this action is supporting both `image` and `path`, so
+    // Xeol accepts several input options, initially this action is supporting both `image` and `path`, so
     // a check must happen to ensure one is selected at least, and then return it
     const source = sourceInput();
     const failBuild = core.getInput("fail-build") || "true";
@@ -110,15 +110,15 @@ async function runScan({ source, failBuild, severityCutoff, onlyFixed, outputFor
 
   const env = {
     ...process.env,
-    GRYPE_CHECK_FOR_APP_UPDATE: "false",
+    XEOL_CHECK_FOR_APP_UPDATE: "false",
   };
 
   const registryUser = core.getInput("registry-username");
   const registryPass = core.getInput("registry-password");
 
   if (registryUser || registryPass) {
-    env.GRYPE_REGISTRY_AUTH_USERNAME = registryUser;
-    env.GRYPE_REGISTRY_AUTH_PASSWORD = registryPass;
+    env.XEOL_REGISTRY_AUTH_USERNAME = registryUser;
+    env.XEOL_REGISTRY_AUTH_PASSWORD = registryPass;
     if (!registryUser || !registryPass) {
       core.warning(
         "WARNING: registry-username and registry-password must be specified together"
@@ -162,8 +162,8 @@ async function runScan({ source, failBuild, severityCutoff, onlyFixed, outputFor
     );
   }
 
-  core.debug(`Installing grype version ${grypeVersion}`);
-  await installGrype(grypeVersion);
+  core.debug(`Installing xeol version ${xeolVersion}`);
+  await installXeol(xeolVersion);
 
   core.debug("Source: " + source);
   core.debug("Fail Build: " + failBuild);
@@ -171,11 +171,11 @@ async function runScan({ source, failBuild, severityCutoff, onlyFixed, outputFor
   core.debug("Only Fixed: " + onlyFixed);
   core.debug("Output Format: " + outputFormat);
 
-  core.debug("Creating options for GRYPE analyzer");
+  core.debug("Creating options for Xeol analyzer");
 
-  // Run the grype analyzer
+  // Run the xeol analyzer
   let cmdOutput = "";
-  let cmd = `${grypeBinary}`;
+  let cmd = `${xeolBinary}`;
   if (severityCutoff !== "") {
     cmdArgs.push("--fail-on");
     cmdArgs.push(severityCutoff.toLowerCase());
@@ -185,7 +185,7 @@ async function runScan({ source, failBuild, severityCutoff, onlyFixed, outputFor
   }
   cmdArgs.push(source);
 
-  // This /dev/null writable stream is required so the entire Grype output
+  // This /dev/null writable stream is required so the entire Xeol output
   // is not written to the GitHub action log. the listener below
   // will actually capture the output
   const outStream = new stream.Writable({
@@ -216,7 +216,7 @@ async function runScan({ source, failBuild, severityCutoff, onlyFixed, outputFor
   });
 
   if (core.isDebug()) {
-    core.debug("Grype output:");
+    core.debug("Xeol output:");
     core.debug(cmdOutput);
   }
 
@@ -241,14 +241,14 @@ async function runScan({ source, failBuild, severityCutoff, onlyFixed, outputFor
   if (exitCode > 0) {
     if (!severityCutoff) {
       // There was a non-zero exit status but it wasn't because of failing severity, this must be
-      // a grype problem
-      core.warning("grype had a non-zero exit status when running");
+      // a xeol problem
+      core.warning("xeol had a non-zero exit status when running");
     } else if (failBuild === true) {
       core.setFailed(
         `Failed minimum severity level. Found vulnerabilities with level '${severityCutoff}' or higher`
       );
     } else {
-      // There is a non-zero exit status code with severity cut off, although there is still a chance this is grype
+      // There is a non-zero exit status code with severity cut off, although there is still a chance this is xeol
       // that is broken, it will most probably be a failed severity. Using warning here will make it bubble up in the
       // Actions UI
       core.warning(
@@ -263,15 +263,15 @@ async function runScan({ source, failBuild, severityCutoff, onlyFixed, outputFor
 module.exports = {
   run,
   runScan,
-  installGrype,
+  installXeol,
 };
 
 if (require.main === module) {
   const entrypoint = core.getInput("run");
   switch (entrypoint) {
-    case "download-grype": {
-      installGrype(grypeVersion).then((path) => {
-        core.info(`Downloaded Grype to: ${path}`);
+    case "download-xeol": {
+      installXeol(xeolVersion).then((path) => {
+        core.info(`Downloaded Xeol to: ${path}`);
         core.setOutput("cmd", path);
       });
       break;
