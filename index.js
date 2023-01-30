@@ -105,7 +105,13 @@ async function run() {
   }
 }
 
-async function runScan({ source, failBuild, severityCutoff, onlyFixed, outputFormat }) {
+async function runScan({
+  source,
+  failBuild,
+  severityCutoff,
+  onlyFixed,
+  outputFormat,
+}) {
   const out = {};
 
   const env = {
