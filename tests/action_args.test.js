@@ -41,7 +41,7 @@ describe("Github action args", () => {
 
   it("runs with table output", async () => {
     const inputs = {
-      image: "localhost:5000/match-coverage/debian:latest",
+      image: "localhost:5000/match-coverage/mongo-32:latest",
       "fail-build": "true",
       "output-format": "table",
     };

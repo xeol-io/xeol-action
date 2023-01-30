@@ -91,9 +91,9 @@ describe("scan-action", () => {
     expect(outputs.stdout).not.toContain("xeol");
   });
 
-  it("fails due to vulnerabilities found", () => {
+  it("fails when EOL found", () => {
     const outputs = runAction({
-      image: "localhost:5000/match-coverage/debian:latest",
+      image: "localhost:5000/match-coverage/mongo-32:latest",
     });
     expect(outputs.stdout).toContain("Failed minimum severity level.");
   });
