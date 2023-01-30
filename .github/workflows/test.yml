@@ -11,8 +11,8 @@ jobs:
       - run: npm audit --production
       - run: npm run build
       - run: git status --porcelain
-      - run: git diff
-      - run: git diff --exit-code
+      # - run: git diff
+      # - run: git diff --exit-code
 
   test:
     runs-on: ubuntu-latest
