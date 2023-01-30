@@ -95,13 +95,13 @@ describe("scan-action", () => {
     const outputs = runAction({
       image: "localhost:5000/match-coverage/mongo-32:latest",
     });
-    expect(outputs.stdout).toContain("Failed minimum severity level.");
+    expect(outputs.stdout).toContain("Failed. Xeol found packages that were End-of-Life (EOL)");
   });
 
   it("runs with sbom", () => {
     const outputs = runAction({
       sbom: "fixtures/test_sbom.spdx.json",
     });
-    expect(outputs.stdout).toContain("Failed minimum severity level.");
+    expect(outputs.stdout).toContain("Failed. Xeol found packages that were End-of-Life (EOL)");
   });
 });
