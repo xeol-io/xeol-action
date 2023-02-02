@@ -1,1 +1,1 @@
-exports.XEOL_VERSION = "v0.2.0";
+exports.XEOL_VERSION = "v0.2.2";
