@@ -10,11 +10,11 @@ on:
 jobs:
   upgrade-xeol:
     runs-on: ubuntu-latest
-    if: github.repository == 'noqcks/xeol-action'
+    if: github.repository == 'xeol-io/xeol-action'
     steps:
       - uses: actions/checkout@v3
       - run: |
-          LATEST_VERSION=$(curl "https://api.github.com/repos/noqcks/xeol/releases/latest" 2>/dev/null | jq -r '.tag_name')
+          LATEST_VERSION=$(curl "https://api.github.com/repos/xeol-io/xeol/releases/latest" 2>/dev/null | jq -r '.tag_name')
           echo "exports.XEOL_VERSION = \"$LATEST_VERSION\";" > XeolVersion.js
           npm install
           npm run build

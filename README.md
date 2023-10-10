@@ -1,14 +1,14 @@
 # GitHub Action for End-of-Life (EOL) Scanning
 
 [![Test Status][test-img]][test]
-[![GitHub release](https://img.shields.io/github/release/noqcks/xeol-action.svg)](https://github.com/noqcks/xeol-action/releases/latest)
-[![License: MIT](https://img.shields.io/github/license/noqcks/xeol-action)](https://img.shields.io/github/license/noqcks/xeol-action)
+[![GitHub release](https://img.shields.io/github/release/xeol-io/xeol-action.svg)](https://github.com/xeol-io/xeol-action/releases/latest)
+[![License: MIT](https://img.shields.io/github/license/xeol-io/xeol-action)](https://img.shields.io/github/license/xeol-io/xeol-action)
 
 :zap: _Find End-of-life (EOL) software in files or containers at lightning speed_ :zap:
 
 ![image](https://user-images.githubusercontent.com/4740147/215561344-5c5bba89-c4a4-4c72-ad71-58c48d5e41d6.png)
 
-This is a GitHub Action for invoking the [Xeol](https://github.com/noqcks/xeol) scanner and returning the end-of-life (EOL) packages,
+This is a GitHub Action for invoking the [Xeol](https://github.com/xeol-io/xeol) scanner and returning the end-of-life (EOL) packages,
 and fail if an out-of-date package is found.
 
 Use this in your workflows to quickly verify files or containers' content after a build and before pushing, allowing PRs, or deploying updates.
@@ -52,7 +52,7 @@ The simplest workflow for scanning a `localbuild/testimage` container:
     load: true
 
 - name: Scan image
-  uses: noqcks/xeol-action@v1.0.6
+  uses: xeol-io/xeol-action@v1.0.6
   with:
     image: "localbuild/testimage:latest"
 ```
@@ -63,7 +63,7 @@ To scan a directory, add the following step:
 
 ```yaml
 - name: Scan current project
-  uses: noqcks/xeol-action@v1.0.6
+  uses: xeol-io/xeol-action@v1.0.6
   with:
     path: "."
 ```
@@ -82,7 +82,7 @@ Use the `sbom` key to scan an SBOM file:
     output-file: "${{ github.event.repository.name }}-sbom.spdx.json"
 
 - name: Scan SBOM
-  uses: noqcks/xeol-action@v1.0.6
+  uses: xeol-io/xeol-action@v1.0.6
   with:
     sbom: "${{ github.event.repository.name }}-sbom.spdx.json"
 ```
@@ -95,7 +95,7 @@ You change the `fail-build` field to `false` to avoid failing the build in the c
 
 ```yaml
 - name: Scan image
-  uses: noqcks/xeol-action@v1.0.6
+  uses: xeol-io/xeol-action@v1.0.6
   with:
     image: "localbuild/testimage:latest"
     fail-build: false
@@ -136,13 +136,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build the container image
         run: docker build . --file Dockerfile --tag localbuild/testimage:latest
-      - uses: noqcks/xeol-action@v1.0.6
+      - uses: xeol-io/xeol-action@v1.0.6
         with:
           image: "localbuild/testimage:latest"
           fail-build: true
 ```
 
-## noqcks/xeol-action/download-xeol
+## xeol-io/xeol-action/download-xeol
 
 A sub-action to [download Xeol](download-xeol/action.yml).
 
@@ -156,7 +156,7 @@ Output parameters:
 
 | Parameter | Description                                                          |
 | --------- | -------------------------------------------------------------------- |
-| `cmd`     | a reference to the [Xeol](https://github.com/noqcks/xeol) binary. |
+| `cmd`     | a reference to the [Xeol](https://github.com/xeol-io/xeol) binary. |
 
 `cmd` can be referenced in a workflow like other output parameters:
 `${{ steps.<step-id>.outputs.cmd }}`
@@ -164,23 +164,23 @@ Output parameters:
 Example usage:
 
 ```yaml
-- uses: noqcks/xeol-action/download-xeol@v3
+- uses: xeol-io/xeol-action/download-xeol@v3
   id: xeol
 - run: ${{steps.xeol.outputs.cmd}} dir:.
 ```
 
 ## Contributing
 
-We love contributions, feedback, and bug reports. For issues with the invocation of this action, file [issues](https://github.com/noqcks/xeol-action/issues) in this repository.
+We love contributions, feedback, and bug reports. For issues with the invocation of this action, file [issues](https://github.com/xeol-io/xeol-action/issues) in this repository.
 
 For contributing, see [Contributing](CONTRIBUTING.md).
 
 ## More Information
 
-For documentation on Xeol itself, including other output capabilities, see the [xeol project](https://github.com/noqcks/xeol)
+For documentation on Xeol itself, including other output capabilities, see the [xeol project](https://github.com/xeol-io/xeol)
 
-[test]: https://github.com/noqcks/xeol-action
-[test-img]: https://github.com/noqcks/xeol-action/workflows/Tests/badge.svg
+[test]: https://github.com/xeol-io/xeol-action
+[test-img]: https://github.com/xeol-io/xeol-action/workflows/Tests/badge.svg
 
 ## Diagnostics
 

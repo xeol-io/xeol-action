@@ -1,5 +1,5 @@
 name: "Download Xeol"
-author: "noqcks"
+author: "xeol-io"
 description: "Downloads the Xeol binary and provides a path to execute it"
 branding:
   color: blue

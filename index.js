@@ -9,7 +9,7 @@ const xeolBinary = "xeol";
 const xeolVersion = core.getInput("xeol-version") || XEOL_VERSION;
 
 async function downloadXeol(version) {
-  let url = `https://raw.githubusercontent.com/noqcks/xeol/main/install.sh`;
+  let url = `https://raw.githubusercontent.com/xeol-io/xeol/main/install.sh`;
 
   core.debug(`Installing ${version}`);
 
