@@ -4,7 +4,7 @@
 [![GitHub release](https://img.shields.io/github/release/xeol-io/xeol-action.svg)](https://github.com/xeol-io/xeol-action/releases/latest)
 [![License: MIT](https://img.shields.io/github/license/xeol-io/xeol-action)](https://img.shields.io/github/license/xeol-io/xeol-action)
 
-:zap: _Find End-of-life (EOL) software in files or containers at lightning speed_ :zap:
+_Find End-of-life (EOL) software in files or containers
 
 ![image](https://user-images.githubusercontent.com/4740147/215561344-5c5bba89-c4a4-4c72-ad71-58c48d5e41d6.png)
 
@@ -52,7 +52,7 @@ The simplest workflow for scanning a `localbuild/testimage` container:
     load: true
 
 - name: Scan image
-  uses: xeol-io/xeol-action@v1.0.6
+  uses: xeol-io/xeol-action@v1.0.7
   with:
     image: "localbuild/testimage:latest"
 ```
@@ -63,7 +63,7 @@ To scan a directory, add the following step:
 
 ```yaml
 - name: Scan current project
-  uses: xeol-io/xeol-action@v1.0.6
+  uses: xeol-io/xeol-action@v1.0.7
   with:
     path: "."
 ```
@@ -82,7 +82,7 @@ Use the `sbom` key to scan an SBOM file:
     output-file: "${{ github.event.repository.name }}-sbom.spdx.json"
 
 - name: Scan SBOM
-  uses: xeol-io/xeol-action@v1.0.6
+  uses: xeol-io/xeol-action@v1.0.7
   with:
     sbom: "${{ github.event.repository.name }}-sbom.spdx.json"
 ```
@@ -95,7 +95,7 @@ You change the `fail-build` field to `false` to avoid failing the build in the c
 
 ```yaml
 - name: Scan image
-  uses: xeol-io/xeol-action@v1.0.6
+  uses: xeol-io/xeol-action@v1.0.7
   with:
     image: "localbuild/testimage:latest"
     fail-build: false
@@ -136,7 +136,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build the container image
         run: docker build . --file Dockerfile --tag localbuild/testimage:latest
-      - uses: xeol-io/xeol-action@v1.0.6
+      - uses: xeol-io/xeol-action@v1.0.7
         with:
           image: "localbuild/testimage:latest"
           fail-build: true
