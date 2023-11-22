@@ -210,6 +210,9 @@ async function runScan({
     });
   });
 
+  console.log("EXIT CODE")
+  console.log(exitCode)
+
   if (core.isDebug()) {
     core.debug("Xeol output:");
     core.debug(cmdOutput);
