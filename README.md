@@ -113,6 +113,7 @@ The inputs `image`, `path`, and `sbom` are mutually exclusive to specify the sou
 | `registry-username` | The registry username to use when authenticating to an external registry                                                                                                                                                                                         |               |
 | `registry-password` | The registry password to use when authenticating to an external registry                                                                                                                                                                                         |               |
 | `fail-build`        | Fail the build if an end-of-life (EOL) software is found                                                                                                                   | `true`        |
+| `api-key`        | The API key to use to send results to xeol.io                                                                                                                   | N/A        |
 | `output-format`     | Set the output parameter after successful action execution. Valid choices are `json`, and `table`, where `table` output will print to the console instead of generating a file.                                                                         | `table`       |
 
 
