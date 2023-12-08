@@ -101,10 +101,12 @@ async function run() {
     // a check must happen to ensure one is selected at least, and then return it
     const source = sourceInput();
     const failBuild = core.getInput("fail-build") || "true";
+    const apiKey = core.getInput("api-key") || "";
     const outputFormat = core.getInput("output-format") || "table";
     const out = await runScan({
       source,
       failBuild,
+      apiKey,
       outputFormat,
     });
     Object.keys(out).map((key) => {
@@ -118,6 +120,7 @@ async function run() {
 async function runScan({
   source,
   failBuild,
+  apiKey,
   outputFormat,
 }) {
   const out = {};
@@ -177,6 +180,9 @@ async function runScan({
   let cmd = `${xeolBinary}`;
   if (failBuild) {
     cmdArgs.push("--fail-on-eol-found");
+  }
+  if (apiKey) {
+    cmdArgs.push("--api-key", apiKey);
   }
   cmdArgs.push(source);
 
