@@ -44,6 +44,17 @@ describe("Xeol command", () => {
     expect(cmd).toBe("xeol -o json asdf");
   });
 
+  it("is invoked with api-key", async () => {
+    let cmd = await mockExec({
+      source: "asdf",
+      failBuild: "false",
+      outputFormat: "json",
+      version: "0.6.0",
+      apiKey: "1234",
+    });
+    expect(cmd).toBe("xeol -o json --api-key 1234 asdf");
+  })
+
   it("is invoked with fail", async () => {
     let cmd = await mockExec({
       source: "asdf",

@@ -98,16 +98,6 @@ describe("scan-action", () => {
     expect(outputs.stdout).toContain("Failed. Xeol found packages that were End-of-Life (EOL)");
   });
 
-  it("runs with api-key input", () => {
-    const outputs = runAction({
-      path: "tests/fixtures/npm-project",
-      "fail-build": "true",
-      "output-format": "json",
-      "api-key": "1234567890",
-    });
-    expect(outputs.stdout).toContain("--api-key");
-  });
-
   it("runs with sbom", () => {
     const outputs = runAction({
       sbom: "fixtures/test_sbom.spdx.json",
