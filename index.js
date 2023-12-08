@@ -167,7 +167,7 @@ async function runScan({
   if (failBuild) {
     cmdArgs.push("--fail-on-eol-found");
   }
-  if (apiKey) {
+  if (apiKey != "") {
     cmdArgs.push("--api-key", apiKey);
   }
   cmdArgs.push(source);

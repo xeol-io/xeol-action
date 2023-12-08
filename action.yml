@@ -21,6 +21,9 @@ inputs:
     description: 'Set the output parameter after successful action execution. Valid choices are "json" and "table".'
     required: false
     default: "table"
+  api-key:
+    description: "The Xeol API key to use for scanning."
+    required: false
 outputs:
   json:
     description: "Path to a JSON report file for the image"
