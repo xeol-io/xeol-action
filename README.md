@@ -121,7 +121,7 @@ The inputs `image`, `path`, and `sbom` are mutually exclusive to specify the sou
 
 | Output Name | Description                                                  | Type   |
 | ----------- | ------------------------------------------------------------ | ------ |
-| `json`      | Path to the report file , if `output-format` is `json`       | string |
+| `report`      | Path to the report file , if `output-format` is `json`       | string |
 
 ### Example Workflow
 
