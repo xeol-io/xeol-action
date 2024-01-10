@@ -4,7 +4,7 @@
 /***/ 7407:
 /***/ ((__unused_webpack_module, exports) => {
 
-exports.XEOL_VERSION = "v0.9.10";
+exports.XEOL_VERSION = "v0.9.11";
 
 
 /***/ }),
