@@ -4,12 +4,12 @@
 [![GitHub release](https://img.shields.io/github/release/xeol-io/xeol-action.svg)](https://github.com/xeol-io/xeol-action/releases/latest)
 [![License: MIT](https://img.shields.io/github/license/xeol-io/xeol-action)](https://img.shields.io/github/license/xeol-io/xeol-action)
 
-_Find End-of-life (EOL) software in files or containers
+Find End-of-life (EOL) software in files or containers
 
 ![image](https://user-images.githubusercontent.com/4740147/215561344-5c5bba89-c4a4-4c72-ad71-58c48d5e41d6.png)
 
-This is a GitHub Action for invoking the [Xeol](https://github.com/xeol-io/xeol) scanner and returning the end-of-life (EOL) packages,
-and fail if an out-of-date package is found.
+This is a GitHub Action for invoking the [Xeol](https://github.com/xeol-io/xeol) scanner and returning the end-of-life (EOL) packages. You can set it to fail pipelines when
+EOL software is found by setting the `fail-build` input to `true`.
 
 Use this in your workflows to quickly verify files or containers' content after a build and before pushing, allowing PRs, or deploying updates.
 
@@ -112,7 +112,7 @@ The inputs `image`, `path`, and `sbom` are mutually exclusive to specify the sou
 | `sbom`              | The SBOM to scan                                                                                                                                                                                                                                                 | N/A           |
 | `registry-username` | The registry username to use when authenticating to an external registry                                                                                                                                                                                         |               |
 | `registry-password` | The registry password to use when authenticating to an external registry                                                                                                                                                                                         |               |
-| `fail-build`        | Fail the build if an end-of-life (EOL) software is found                                                                                                                   | `true`        |
+| `fail-build`        | Fail the build if an end-of-life (EOL) software is found                                                                                                                   | `false`        |
 | `api-key`        | The API key to use to send results to xeol.io                                                                                                                   | N/A        |
 | `output-format`     | Set the output parameter after successful action execution. Valid choices are `json`, and `table`, where `table` output will print to the console instead of generating a file.                                                                         | `table`       |
 
